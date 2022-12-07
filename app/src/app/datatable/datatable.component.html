@@ -1,0 +1,77 @@
+<button (click)="render()">
+    ...
+</button>
+
+<div class="form-check form-check-primary mb-4">
+    <input class="form-check-input rounded-circle" type="checkbox" value="" id="checkbox">
+    <label class="form-check-label" for="checkbox">Seleccionar Todos</label>
+</div>
+
+<div class="table-responsive">
+    <table datatable [dtOptions]="dtOptions[10]" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+        <tr>
+            <th *ngIf="settings.hasActions" >Options</th>
+            <ng-container *ngFor="let col of headers">
+                <th *ngIf="col.isMoneda" style="text-align: right">
+                    <span>{{col.title | titlecase}}</span>
+                </th>
+                <th *ngIf="!col.isMoneda">
+                    <span>{{col.title | titlecase}}</span>
+                </th>
+            </ng-container>
+        </tr>
+        </thead>
+        <tbody *ngFor="let data of dataRecords; let idx=index">
+        <tr class="border-row-custom">
+            <td *ngIf="settings.hasActions" [ngClass]="tamanoOpciones()">
+                <!-- <div style="width: 80px; height: 10px ;border: 1px solid black"></div>
+                 <div style="width: 70px; height: 10px ;border: 1px solid black"></div>-->
+                <div class="d-flex flex-wrap justify-content-between">
+                    <a ngbTooltip="Editar"
+                       *ngIf="settings.actions?.edit"
+                       (click)="btnEditClick(data)"
+                       class="action-icon cursor_custom text-primary">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+
+                    <a class="action-icon cursor_custom text-danger"
+                       *ngIf="settings.actions?.deleted"
+                       (click)="btnDeleteClick(data)"
+                       ngbTooltip="Eliminar">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+
+                    <a class="action-icon cursor_custom text-warning"
+                       *ngIf="settings.actions?.view"
+                       (click)="btnViewClick(data)"
+                       ngbTooltip="Ver">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+
+                    <div class="form-check form-check-primary"
+                         *ngIf="settings.actions?.checkbox"
+                         style="margin-top: 3px;">
+                        <input class="form-check-input rounded-circle" type="checkbox"
+                               (change)="asignarCheckbox(data, idx)"
+                               value="" id="checkbox_{{idx}}" [checked]="selectedCheckboxs[idx]" >
+                        <!--<label class="form-check-label" for="checkbox_{{idx}}">Primary</label>-->
+                    </div>
+                </div>
+
+            </td>
+            <ng-container *ngFor="let col of headers">
+                <td *ngIf="col.isMoneda" style="text-align: right">
+                    {{data[col.fieldName] | currency: 'MX$'}}
+                </td>
+                <td *ngIf="!col.isMoneda">
+                    {{data[col.fieldName]}}
+                </td>
+            </ng-container>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<pre>{{this.dataRecords | json}}</pre>

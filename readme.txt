@@ -13,3 +13,7 @@ docker run -it --name datatable \
   -p 80:4200 \
   -v "${PWD}/app:/opt/app" \
   test_datatables:v1
+
+
+delete imagen
+docker rm -f datatable

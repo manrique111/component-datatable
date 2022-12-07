@@ -4,10 +4,11 @@ RUN apt update && apt -y upgrade \
     && npm install -g npm \
     && npm install -g @angular/cli
 
-COPY /app /opt/app
+RUN mkdir -p /opt/app && mkdir -p /opt/config
 
-RUN mkdir -p /opt/app
+COPY /app /opt/app
+COPY config /opt/config
 
 WORKDIR /opt/app
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT /opt/config/entrypoint.sh
