@@ -11,4 +11,5 @@ for run proyect in a terminal
 
 docker run -it --name datatable \
   -p 80:4200 \
+  -v "${PWD}/app:/opt/app" \
   test_datatables:v1
