@@ -1,4 +1,4 @@
-<button (click)="render()">
+<button (click)="nuevoRegistro()">
     ...
 </button>
 
@@ -22,8 +22,8 @@
             </ng-container>
         </tr>
         </thead>
-        <tbody *ngFor="let data of dataRecords; let idx=index">
-        <tr class="border-row-custom">
+        <tbody>
+        <tr class="border-row-custom" *ngFor="let data of dataRecords; let idx=index">
             <td *ngIf="settings.hasActions" [ngClass]="tamanoOpciones()">
                 <!-- <div style="width: 80px; height: 10px ;border: 1px solid black"></div>
                  <div style="width: 70px; height: 10px ;border: 1px solid black"></div>-->

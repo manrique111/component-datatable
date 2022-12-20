@@ -2,6 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output
 import {DataTableDirective} from "angular-datatables";
 import {Subject} from "rxjs";
 import {AccionEmiter, AccionEmiterEnum, Headers, Setting} from "./datatable.interface";
+import {DataTableService} from "./datatable.service";
 
 @Component({
   selector: 'app-datatable',
@@ -19,18 +20,19 @@ export class DatatableComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() headers!: Headers[];
   @Input() settings!: Setting;
   @Input() loading!: boolean;
-  dataRecords: any[] = [];
+  dataRecords: any[] = this.servicio.data;
   selectedCheckboxs: any[] = [];
 
   @Input()
   set DataRecords(dataRecords: any) {
+    this.dataRecords = [];
     this.dataRecords = dataRecords;
   }
 
   // * Emitters
   @Output() actionsButtonTables = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private servicio: DataTableService) { }
 
   ngOnInit(): void {
 
@@ -122,6 +124,28 @@ export class DatatableComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this.selectedCheckboxs[idx] = true;
     }
+  }
+
+  nuevoRegistro() {
+    let registros: any[] = this.servicio.data;
+    let row = 0;
+    for(let reg of registros) {
+      row = reg.id
+    }
+
+    registros.push({
+      id: row + 1,
+      name: 'Agustin Bernal',
+      job: 'Plomero',
+      salary: 90
+    })
+    this.dataRecords = [];
+    this.dataRecords = this.servicio.data;
+    this.render();
+  }
+
+  get registros() {
+    return this.servicio.data;
   }
 
 }
